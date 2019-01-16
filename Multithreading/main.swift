@@ -12,45 +12,47 @@ var udpArray: [String] = ["Packet1", "Packet2", "Packet3"]
 
 var thread1Buffer: [String] = []
 
-let sema1 = DispatchSemaphore(value: 1)
-let sema2 = DispatchSemaphore(value: 0)
+let operationQueue = OperationQueue()
+
+let bufferSemaphore = DispatchSemaphore(value: 1)
+let runLoopSemaphore = DispatchSemaphore(value: 0)
 
 let blockA = BlockOperation {
         
-    print("Enter Block")
+    print("Enter Block A")
     
-    for i in 0...2 {
-        sema2.wait()
+    while true {
+        runLoopSemaphore.wait()
         
+        bufferSemaphore.wait()
         let el: String = thread1Buffer.popLast() ?? "NULL"
-        print("processing |\(el)|")
+        bufferSemaphore.signal()
+        print("processing |\(el)|", Thread.current)
         
-        if (i == 1) { break }
-        // else { sema2.wait() }
+        sleep(3)
+        
+        bufferSemaphore.wait()
+        if (thread1Buffer.count == 0) { break }
+        bufferSemaphore.signal()
     }
 }
 
-let operationQueue = OperationQueue()
-
-let el = udpArray[0]
-
-let block = BlockOperation {
-    print("Sending \(el) to Thread")
+for el in udpArray {
+    let block = BlockOperation {
+        print("Sending \(el) to Thread")
+        
+        bufferSemaphore.wait()
+        
+        thread1Buffer.append(el)
+        
+        runLoopSemaphore.signal()
+        bufferSemaphore.signal()
+        
+    }
     
-    sema1.wait()
-    
-    thread1Buffer.append(el)
-    
-    sema2.signal()
-    sema1.signal()
+    operationQueue.addOperation(block)
 }
 
-let block3 = BlockOperation {
-    sleep(3)
-    
-    thread1Buffer.append("New Packet")
-    sema2.signal()
-}
-operationQueue.addOperations([block, blockA, block3], waitUntilFinished: true)
+operationQueue.addOperations([blockA], waitUntilFinished: true)
 
 print("thread1Buffer on END: ", thread1Buffer)
