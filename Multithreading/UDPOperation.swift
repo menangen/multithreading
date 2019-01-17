@@ -17,24 +17,22 @@ class UDPOperation : Operation {
     
     override func main() {
         
-        print("Enter Operation: \(self.name!)")
-        
+        print("Enter Operation: \(self.name!) \n")
         
         while true {
+            print("[\(self.name!)] Enter in loop")
+            
+            StartJobSemaphore.wait()
+            
+            if (self.name == nil) { break }
+            
+            print("[\(self.name!)] Go...")
+            
             UDPBufferSemaphore.wait()
             
             if let el = udpBuffer.popLast() {
                 UDPBufferSemaphore.signal()
                 print("[\(self.name!)] processing |\(el)|")
-                
-                sleep(1)
-            }
-
-            else {
-                UDPBufferSemaphore.signal()
-                print("[\(self.name!)] Completed")
-            
-                break
             }
         }
     }
