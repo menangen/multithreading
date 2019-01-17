@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D2F20B41DAD49E100AC70B2 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2F20B31DAD49E100AC70B2 /* main.swift */; };
+		0D99A09C21F0D61900B6FA28 /* UDPOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D99A09B21F0D61900B6FA28 /* UDPOperation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		0D2F20B01DAD49E100AC70B2 /* Multithreading */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Multithreading; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D2F20B31DAD49E100AC70B2 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		0D99A09B21F0D61900B6FA28 /* UDPOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDPOperation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				0D2F20B31DAD49E100AC70B2 /* main.swift */,
+				0D99A09B21F0D61900B6FA28 /* UDPOperation.swift */,
 			);
 			path = Multithreading;
 			sourceTree = "<group>";
@@ -122,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D2F20B41DAD49E100AC70B2 /* main.swift in Sources */,
+				0D99A09C21F0D61900B6FA28 /* UDPOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
