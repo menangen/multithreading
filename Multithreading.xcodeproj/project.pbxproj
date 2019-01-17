@@ -243,8 +243,11 @@
 		0D2F20B81DAD49E100AC70B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				GCC_C_LANGUAGE_STANDARD = c11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -252,8 +255,11 @@
 		0D2F20B91DAD49E100AC70B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				GCC_C_LANGUAGE_STANDARD = c11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;

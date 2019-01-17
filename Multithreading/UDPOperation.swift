@@ -10,30 +10,38 @@ import Foundation
 
 class UDPOperation : Operation {
     public var
-    thread1Buffer: [String] = []
-    
-    public let
-    bufferSemaphore = DispatchSemaphore(value: 1)
+    packetBuffer: [String] = []
     
     public let
     runLoopSemaphore = DispatchSemaphore(value: 0)
     
+    init(_ id: Int) {
+        super.init()
+        self.name = "(\(id)) UDP Worker"
+    }
+    
     override func main() {
-        print("Enter Operation", Thread.current)
+        
+        print("Enter Operation: \(self.name!)")
+        group.enter()
         
         while true {
             runLoopSemaphore.wait()
+
+            print("[\(self.name!)] packetBuffer = ", packetBuffer)
             
-            bufferSemaphore.wait()
-                let el: String = thread1Buffer.popLast() ?? "NULL"
-            bufferSemaphore.signal()
+            let el: String = packetBuffer.popLast() ?? "NULL"
+
+            print("[\(self.name!)] processing |\(el)|")
             
-            print("processing |\(el)|", Thread.current)
-            sleep(3)
-            
-            bufferSemaphore.wait()
-                if (thread1Buffer.count == 0) { break }
-            bufferSemaphore.signal()
+            sleep(2)
+
+            if (packetBuffer.isEmpty) {
+                print("[\(self.name!)] Completed")
+                
+                group.leave()
+                break
+            }
         }
     }
 }
