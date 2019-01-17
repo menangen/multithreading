@@ -8,34 +8,16 @@
 
 import Foundation
 
-var udpArray: [String] = ["Packet1", "Packet2", "Packet3"]
+let UDPBufferSemaphore = DispatchSemaphore(value: 1)
+var udpBuffer: [String] = ["Packet1", "Packet2", "Packet3", "Packet4"]
 
 var operationsList = [UDPOperation]()
 let operationQueue = OperationQueue()
 
-let group = DispatchGroup()
 
 for index in 0...1 {
     let op = UDPOperation(index)
     operationsList.append(op)
-    operationQueue.addOperation(op)
 }
 
-for (index, el) in udpArray.enumerated() {
-    
-    let block = BlockOperation {
-        let operationId = index & 0x1
-        
-        print("Sending \(el) to Thread \(operationId)", Thread.current.description)
-        
-        let udpThread = operationsList[operationId]
-  
-        udpThread.packetBuffer.append(el)
-        udpThread.runLoopSemaphore.signal()
-    }
-    
-    block.name = "UDP Block"
-    block.start()
-}
-
-group.wait()
+operationQueue.addOperations(operationsList, waitUntilFinished: true)

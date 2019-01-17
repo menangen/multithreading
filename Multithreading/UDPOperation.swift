@@ -9,12 +9,7 @@
 import Foundation
 
 class UDPOperation : Operation {
-    public var
-    packetBuffer: [String] = []
-    
-    public let
-    runLoopSemaphore = DispatchSemaphore(value: 0)
-    
+
     init(_ id: Int) {
         super.init()
         self.name = "(\(id)) UDP Worker"
@@ -23,23 +18,22 @@ class UDPOperation : Operation {
     override func main() {
         
         print("Enter Operation: \(self.name!)")
-        group.enter()
+        
         
         while true {
-            runLoopSemaphore.wait()
-
-            print("[\(self.name!)] packetBuffer = ", packetBuffer)
+            UDPBufferSemaphore.wait()
             
-            let el: String = packetBuffer.popLast() ?? "NULL"
-
-            print("[\(self.name!)] processing |\(el)|")
-            
-            sleep(2)
-
-            if (packetBuffer.isEmpty) {
-                print("[\(self.name!)] Completed")
+            if let el = udpBuffer.popLast() {
+                UDPBufferSemaphore.signal()
+                print("[\(self.name!)] processing |\(el)|")
                 
-                group.leave()
+                sleep(1)
+            }
+
+            else {
+                UDPBufferSemaphore.signal()
+                print("[\(self.name!)] Completed")
+            
                 break
             }
         }
